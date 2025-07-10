@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %} - {{ news.title }}{% endblock title %}
+{% block content %}
+<!-- Article Content -->
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <!-- Article Header -->
+      <h1 class="mb-3">{{ news.title }}</h1>
+      <p class="text-muted">
+        Published on July 8, 2025 by <strong>John Doe</strong> | Category: <em>{{ news.category }}</em>
+      </p>
+
+      <!-- Article Image -->
+      <img src="{{ news.image.url }}" class="img-fluid mb-4 rounded" alt="{{ news.title }}">
+
+      <!-- Article Body -->
+      <p>{{ news.content }}</p>
+
+      <!-- Tags / Related -->
+      <div class="mt-4">
+        <span class="badge bg-secondary">#Breaking</span>
+        <span class="badge bg-secondary">#Politics</span>
+        <span class="badge bg-secondary">#International</span>
+      </div>
+
+      <!-- Back to Home -->
+      <div class="mt-5">
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary">&larr; Back to Home</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
