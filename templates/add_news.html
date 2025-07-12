@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %} - Yangi yangilik qo'shish{% endblock title %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <h2 class="mb-4">Yangi yangilik qo'shish</h2>
+
+      <form enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        <!-- Title -->
+        <div class="mb-3">
+          <label for="title" class="form-label">Sarlavha</label>
+          <input type="text" class="form-control" name="title" id="title" placeholder="Yangilik sarlavhasi">
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3">
+          <label for="category" class="form-label">Kategoriya</label>
+          <select class="form-select" id="category" name="category">
+            <option selected disabled>Tanlang...</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Image -->
+        <div class="mb-3">
+          <label for="image" class="form-label">Rasm yuklash</label>
+          <input class="form-control" type="file" id="image" name="image">
+        </div>
+
+        <!-- Content -->
+        <div class="mb-3">
+          <label for="content" class="form-label">Matn</label>
+          <textarea name="content" class="form-control" id="content" rows="6" placeholder="Yangilik matni..."></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-primary">Saqlash</button>
+        <a href="{% url 'home' %}" class="btn btn-secondary ms-2">Bekor qilish</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}
