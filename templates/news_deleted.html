@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %} - Yangilik o'chirildi{% endblock title %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <div class="alert alert-success p-4">
+        <h3 class="mb-3">✅ Yangilik muvaffaqiyatli o'chirildi!</h3>
+        <p>Ushbu yangilik tizimdan olib tashlandi.</p>
+        <a href="{% url 'home' %}" class="btn btn-primary mt-3">Bosh sahifaga qaytish</a>
+    </div>
+</div>
+{% endblock content %}

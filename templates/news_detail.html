@@ -1,34 +1,94 @@
 {% extends 'base.html' %}
 {% block title %} - {{ news.title }}{% endblock title %}
+
 {% block content %}
-<!-- Article Content -->
 <div class="container mt-4">
   <div class="row">
     <div class="col-lg-8 offset-lg-2">
-      <!-- Article Header -->
-      <h1 class="mb-3">{{ news.title }}</h1>
-      <p class="text-muted">
-        Published on July 8, 2025 by <strong>John Doe</strong> | Category: <em>{{ news.category }}</em>
-      </p>
 
-      <!-- Article Image -->
-      <img src="{{ news.image.url }}" class="img-fluid mb-4 rounded" alt="{{ news.title }}">
+      <!-- Start Form -->
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
 
-      <!-- Article Body -->
-      <p>{{ news.content }}</p>
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center">
+          <h1 id="titleDisplay" class="mb-3">{{ news.title }}</h1>
+          <input type="text" name="title" id="titleInput" class="form-control d-none" value="{{ news.title }}">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="enableEditMode()">✏️ Edit</button>
+        </div>
 
-      <!-- Tags / Related -->
-      <div class="mt-4">
-        <span class="badge bg-secondary">#Breaking</span>
-        <span class="badge bg-secondary">#Politics</span>
-        <span class="badge bg-secondary">#International</span>
-      </div>
+        <p class="text-muted">
+          Published on July 8, 2025 by <strong>John Doe</strong> |
+          Category:
+          <em id="categoryDisplay">{{ news.category }}</em>
+          <select name="category" id="categoryInput" class="form-select form-select-sm d-none mt-2">
+            <option selected value="{{ news.category.id }}">{{ news.category }}</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+            {% endfor %}
+          </select>
+        </p>
 
-      <!-- Back to Home -->
-      <div class="mt-5">
-        <a href="{% url 'home' %}" class="btn btn-outline-secondary">&larr; Back to Home</a>
-      </div>
+        <!-- Image -->
+        <img id="imageDisplay" src="{{ news.image.url }}" class="img-fluid mb-4 rounded" alt="{{ news.title }}">
+        <input type="file" name="image" id="imageInput" class="form-control d-none mb-4">
+
+        <!-- Content -->
+        <p id="contentDisplay">{{ news.content }}</p>
+        <textarea name="content" id="contentInput" class="form-control d-none" rows="8">{{ news.content }}</textarea>
+
+        <!-- Submit Button -->
+        <div class="mt-4 d-none" id="submitBtnWrapper">
+          <button type="submit" class="btn btn-success me-2">Saqlash</button>
+
+          <!-- Cancel Button -->
+          <button type="button" class="btn btn-outline-secondary me-2" onclick="cancelEditMode()">Bekor qilish</button>
+
+          <!-- Delete Button (optional) -->
+          <a href="{% url 'news_delete' news.id %}" class="btn btn-danger"
+            onclick="return confirm('Rostdan ham o‘chirmoqchimisiz?')">🗑️ O'chirish</a>
+        </div>
+
+        <!-- Tags -->
+        <div class="mt-4">
+          <span class="badge bg-secondary">#Breaking</span>
+          <span class="badge bg-secondary">#Politics</span>
+          <span class="badge bg-secondary">#International</span>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="mt-5">
+          <a href="{% url 'home' %}" class="btn btn-outline-secondary">&larr; Back to Home</a>
+        </div>
+      </form>
+      <!-- End Form -->
+
     </div>
   </div>
 </div>
+
+
+<script>
+  function enableEditMode() {
+    document.getElementById('titleDisplay').classList.add('d-none');
+    document.getElementById('titleInput').classList.remove('d-none');
+
+    document.getElementById('contentDisplay').classList.add('d-none');
+    document.getElementById('contentInput').classList.remove('d-none');
+
+    document.getElementById('imageDisplay').classList.add('d-none');
+    document.getElementById('imageInput').classList.remove('d-none');
+
+    document.getElementById('categoryDisplay').classList.add('d-none');
+    document.getElementById('categoryInput').classList.remove('d-none');
+
+    document.getElementById('submitBtnWrapper').classList.remove('d-none');
+  }
+
+  function cancelEditMode() {
+    // Optionally reload the page or hide the inputs again
+    location.reload(); // quick way to reset form state
+  }
+</script>
+
 {% endblock content %}

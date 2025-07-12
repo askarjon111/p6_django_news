@@ -7,3 +7,10 @@ POST -- Ma'lumot kiritish uchun
 PUT -- Ma'lumotni o'zgartirish uchun
 PATCH -- Ma'lumotni qisman o'zgartirish uchun
 DELETE -- Ma'lumotn o'chirish uchun
+
+
+CRUD operations
+Create
+Retrieve
+Update
+Delete
