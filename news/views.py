@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from news.forms import AddNewsForm
 from news.models import New, Category
 from django.shortcuts import get_object_or_404
 
@@ -35,21 +36,20 @@ def news_detail_view(request, pk):
 
 def add_news_view(request):
     if request.method == 'GET':
+        news_form = AddNewsForm()
         categories = Category.objects.all()
         data = {
-            'categories': categories
+            'categories': categories,
+            'news_form': news_form,
         }
         return render(request, 'add_news.html', data)
     elif request.method == 'POST':
-        category = Category.objects.get(id=request.POST.get('category'))
-        title = request.POST.get('title')
-        image = request.FILES.get('image')
-        content = request.POST.get('content')
-        news = New.objects.create(title=title,
-                                  category=category,
-                                  image=image,
-                                  content=content)
-        return redirect(reverse('news_detail', kwargs={'pk': news.id}))
+        form = AddNewsForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+        else:
+            print(form.errors)
+        return redirect(reverse('home'))
 
 
 def delete_news_view(request, pk):
