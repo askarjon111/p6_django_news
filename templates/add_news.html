@@ -9,7 +9,7 @@
 
       <form enctype="multipart/form-data" method="POST">
         {% csrf_token %}
-        {{ news_form.as_p }}
+        {{ form.as_p }}
         <input type="submit" class="btn btn-primary" value="Saqlash">
         <a href="{% url 'home' %}" class="btn btn-secondary ms-2">Bekor qilish</a>
       </form>

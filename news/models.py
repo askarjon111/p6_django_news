@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -22,3 +23,6 @@ class New(models.Model):
 
     class Meta:
         ordering = ['-id']
+
+    def get_absolute_url(self):
+        return reverse("news_detail", kwargs={"pk": self.pk})
